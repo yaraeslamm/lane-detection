@@ -26,3 +26,13 @@ out/
 
 # Coverage
 coverage/
+
+*.mp4
+*.mov
+*.avi
+*.jpeg
+*.jpg
+*.png
+*.gif
+*.svg
+*.txt
