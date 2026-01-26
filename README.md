@@ -6,35 +6,42 @@ The pipeline reflects approaches commonly used in **ADAS and autonomous driving 
 
 ---
 
-## ✨ Features
+## ✨ Demo
 
-- Multi-class semantic segmentation:
-  - Background
-  - Road surface
-  - Lane markings
-- Lane highlighting derived **directly from segmentation output**
-- Robust to illumination and scene variations
-- Modular and easy to fine-tune on new datasets
+<p align="center">
+  <img src="assets/demo.gif" width="700">
+</p>
+
+> The model performs road and lane segmentation and highlights lane markings consistently across frames.
 
 ---
 
-## 🧠 Approach Overview
+## 📌 Project Overview
 
-1. A semantic segmentation model predicts pixel-wise class labels.
-2. The **lane-marking class** is isolated from the segmentation output.
-3. Morphological operations and filtering are applied.
-4. Lane markings are overlaid on the road region for visualization.
+This project focuses on **multi-class semantic segmentation** for driving scenes, targeting:
 
-This design mirrors real-world pipelines where perception models feed downstream geometric reasoning.
+- Road region segmentation (drivable area)
+- Background segmentation
+- Lane marking segmentation
+- Lane visualization derived from predicted lane pixels (no classical lane detection or Hough-based methods)
+
+Supported pipelines:
+- 🖼️ Image inference
+- 🎥 Video inference
+- 🔁 Optional model fine-tuning on custom datasets
 
 ---
 
 ## 🏗 Model Architecture
 
-- U-Net–style convolutional neural network
-- Encoder–decoder structure with skip connections
-- Softmax output over 3 classes
-- Trained using categorical cross-entropy loss
+- U-Net–style encoder–decoder architecture
+- ResNet-50 encoder backbone (pre-trained for feature extraction)
+- Multi-class semantic segmentation
+- Softmax output over 3 classes:
+  - `0` → Background
+  - `1` → Road
+  - `2` → Lane markings
+- Trained using `SparseCategoricalCrossentropy` loss
 
 ---
 
@@ -61,32 +68,111 @@ Final dataset size: **~1,496 images**
 
 ---
 
-## 🔁 Training & Fine-Tuning
+## 📈 Training Details
 
-To fine-tune the model on your own dataset:
-1. Prepare RGB masks using the same color coding.
-2. Update dataset paths in `data.py`.
-3. Adjust the number of classes if needed.
-4. Retrain using `train.py`.
+- Loss function: `SparseCategoricalCrossentropy`
+- Optimizer: Adam (`learning_rate = 1e-4`)
+- Metrics:
+  - Sparse Categorical Accuracy
+  - Mean IoU (computed from logits)
+  - Lane-specific IoU
 
-The code is designed to be easily adaptable to new road environments.
+Multiple experiments were conducted (5+ model variants) before selecting the final model.
+
+### 📊 Final Model Performance (Epoch 20)
+
+| Metric       | Training | Validation |
+|-------------|----------|------------|
+| Accuracy    | 0.9972   | 0.9954     |
+| Lane IoU    | 0.8517   | 0.8542     |
+| Mean IoU    | 0.9456   | 0.9401     |
+| Loss        | 0.0069   | 0.0146     |
 
 ---
 
-## 📈 Results
+## 🖥️ Inference Pipelines
 
-- Stable convergence during training
-- Accurate separation of road and lane markings
-- Clean lane highlighting even under challenging conditions
+The repository provides ready-to-run pipelines:
 
-<p align="center">
-  <img src="demo/demo.gif" width="700"/>
-</p>
+- `src/run_image.py` → perform inference on single images
+- `src/run_video.py` → perform inference on videos
+- `src/lane_postprocessor.py` → post-processing to highlight lanes on segmented pixels
+- `src/inference.py` → utility functions shared across pipelines
+
+> The pipelines operate on the trained model directly. No training is required for inference.
+
+---
+
+## 🔁 Fine-Tuning on Custom Data
+
+This project supports **fine-tuning on custom datasets** through the script:
+
+`training/finetune.py`
+
+
+
+Fine-tuning is recommended if:
+- You want better performance on a specific country, road type, or camera setup
+- Your data distribution differs from the original dataset
+- You want to extend or rebalance lane / road classes
+
+### 📒 Fine-Tuning Setup
+
+- Dataset loading and preprocessing handled in `training/dataset.py`
+- Multi-class mask generation
+- Model compilation with pre-loaded weights
+- Training with checkpoints saved automatically
+- Evaluation using IoU-based metrics
+
+> Users can optionally adjust learning rate, batch size, and number of epochs inside the script.
+
+---
+
+### 🏷️ Ground Truth Format
+
+Segmentation masks are RGB-encoded and converted into class IDs during training:
+
+| Class        | RGB Value      | Class ID |
+|--------------|----------------|----------|
+| Background   | (0, 0, 0)      | 0        |
+| Road         | (128, 0, 0)    | 1        |
+| Lane Marking | (0, 128, 0)    | 2        |
+
+During training, masks are converted to a single-channel tensor of class indices.
+
+---
+
+### 📈 Model Selection
+
+Multiple experiments were conducted (5+ model variants) with different:
+- Training schedules
+- Data augmentation strategies
+- Metric combinations
+
+The final model was selected based on **lane IoU stability** and **visual consistency**, not only numerical metrics.
+
+---
+
+
+### 🔄 Extending the Model
+
+You may fine-tune the model by:
+- Re-training all layers
+- Freezing the encoder and training only the decoder
+- Adjusting class balance or augmentations
+
+The scripts are structured to support iterative experimentation.
+
 
 ---
 
 ## 👤 Author
 
 **Yara Elshehawi**  
-Digital Media Engineering  
-Focus: Computer Vision & AI
+Computer Vision & Machine Learning Engineer
+
+
+🌐 [Portfolio](https://yaraeslamm.github.io)
+
+🔗 [LinkedIn](https://www.linkedin.com/in/yara-eslam-877421212/)
+
