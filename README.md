@@ -68,6 +68,16 @@ Final dataset size: **~1,496 images**
 
 ---
 
+## Pretrained Model Weights
+
+The trained segmentation model is hosted on Hugging Face:
+
+👉 [here](https://huggingface.co/yaraa11/road-lane-semantic-segmentation-unet-resnet50)
+
+Download the `.keras` file from the model page and update the model path in the inference scripts accordingly
+
+---
+
 ## 📈 Training Details
 
 - Loss function: `SparseCategoricalCrossentropy`
