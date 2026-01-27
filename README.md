@@ -2,7 +2,7 @@
 
 This project presents a **lane detection system based on semantic segmentation**, where lane markings are extracted and highlighted from road scenes using a deep learning model followed by structured post-processing.
 
-The pipeline reflects approaches commonly used in **ADAS and autonomous driving perception systems**, separating semantic understanding from lane geometry logic.
+The pipeline reflects approaches commonly used in **ADAS and autonomous driving perception systems** .
 
 ---
 
@@ -77,9 +77,21 @@ Final dataset size: **~1,496 images**
   - Mean IoU (computed from logits)
   - Lane-specific IoU
 
-Multiple experiments were conducted (5+ model variants) before selecting the final model.
 
-### 📊 Final Model Performance (Epoch 20)
+
+### 📋 Model Selection
+
+Multiple experiments were conducted (5+ model variants) with different:
+- Training schedules
+- Data augmentation strategies
+- Metric combinations
+
+The final model was selected based on **lane IoU stability** and **visual consistency**, not only numerical metrics.
+
+
+
+
+### 📊 Final Model Performance (20 Epoch)
 
 | Metric       | Training | Validation |
 |-------------|----------|------------|
@@ -121,7 +133,6 @@ Fine-tuning is recommended if:
 - Dataset loading and preprocessing handled in `training/dataset.py`
 - Multi-class mask generation
 - Model compilation with pre-loaded weights
-- Training with checkpoints saved automatically
 - Evaluation using IoU-based metrics
 
 > Users can optionally adjust learning rate, batch size, and number of epochs inside the script.
@@ -139,17 +150,6 @@ Segmentation masks are RGB-encoded and converted into class IDs during training:
 | Lane Marking | (0, 128, 0)    | 2        |
 
 During training, masks are converted to a single-channel tensor of class indices.
-
----
-
-### 📈 Model Selection
-
-Multiple experiments were conducted (5+ model variants) with different:
-- Training schedules
-- Data augmentation strategies
-- Metric combinations
-
-The final model was selected based on **lane IoU stability** and **visual consistency**, not only numerical metrics.
 
 ---
 
