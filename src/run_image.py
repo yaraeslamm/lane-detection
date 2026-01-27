@@ -4,9 +4,9 @@ import cv2
 from inference import RoadSegmentationModel
 from lane_postprocess import LanePostProcessor
 
-MODEL_PATH = "models/road_model_industryV1_myDATASET.keras"
-INPUT_DIR = "data/images"
-OUTPUT_DIR = "outputs/images"
+MODEL_PATH = "model.keras" # " you can access the model here : https://huggingface.co/yaraa11/road-lane-semantic-segmentation-unet-resnet50"
+INPUT_DIR = "path/to/your/input/images"
+OUTPUT_DIR = "path/to/save/output/images"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

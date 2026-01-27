@@ -6,9 +6,9 @@ from inference import RoadSegmentationModel
 from lane_postprocess import LaneHighlighter
 
 
-MODEL_PATH = "/Users/funnyflea7/Downloads/road_model_industryV1_myDATASET.keras"
-INPUT_VIDEO = "/Users/funnyflea7/Desktop/portofolio projects/in progress/lane-detection/lane-detection/to work/inpuut.mp4"
-OUTPUT_VIDEO = "/Users/funnyflea7/Desktop/portofolio projects/in progress/lane-detection/lane-detection/to work/run_video_output#4.mp4"
+MODEL_PATH = "model.keras" # " you can access the model here : https://huggingface.co/yaraa11/road-lane-semantic-segmentation-unet-resnet50"
+INPUT_VIDEO = "path/to/your/input/video.mp4"
+OUTPUT_VIDEO = "path/to/save/output/video.mp4"
 
 
 segmenter = RoadSegmentationModel(MODEL_PATH)
