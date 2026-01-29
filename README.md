@@ -176,6 +176,25 @@ The scripts are structured to support iterative experimentation.
 
 ---
 
+## 🚀 Deployment & Demo (Hugging Face Spaces & Docker)
+
+The trained lane segmentation model is deployed on **Hugging Face Spaces** using **Docker**, providing an interactive web-based demo for video-based inference.
+
+The demo features a **minimal user interface** with:
+- Video upload functionality
+- Video processing using the deployed semantic segmentation model
+
+After processing, the application displays:
+- **Full semantic segmentation output**, including background, road, and lane classes
+- **Lane-only visualization**, highlighting detected lane markings
+
+
+This deployment enables **end-to-end video inference**, from uploading a recorded video to visualizing segmentation results, without requiring local setup.
+
+👉 [Try It](https://huggingface.co/spaces/yaraa11/Road-and-Lane-Segmentation-for-Autonomous-Driving)
+
+---
+
 ## 👤 Author
 
 **Yara Elshehawi**  
