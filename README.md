@@ -9,7 +9,7 @@ The pipeline reflects approaches commonly used in **ADAS and autonomous driving 
 ## ✨ Demo
 
 <p align="center">
-  <img src="assets/demo.mp4" width="700">
+  <img src="assets/demo.gif" width="700">
 </p>
 
 > The model performs road and lane segmentation and highlights lane markings consistently across frames.
