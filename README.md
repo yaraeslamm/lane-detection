@@ -197,8 +197,7 @@ This deployment enables **end-to-end video inference**, from uploading a recorde
 
 ## 👤 Author
 
-**Yara Elshehawi**  
-Computer Vision & Machine Learning Engineer
+Built with curiosity and care by **Yara Elshehawi** 🌱
 
 
 🌐 [Portfolio](https://yaraeslamm.github.io)
